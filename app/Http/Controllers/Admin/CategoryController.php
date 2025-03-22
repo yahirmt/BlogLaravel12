@@ -12,8 +12,9 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        return view('admin.categories.index', ['categories' => Category::all()]);
+    {   
+        $categories = Category::orderBy('id', 'desc')->get();
+        return view('admin.categories.index', compact('categories'));
     }
 
     /**
@@ -21,7 +22,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.categories.create');
     }
 
     /**
@@ -29,7 +30,22 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|min:3|max:255',
+        ]);
+
+        Category::create($data);
+
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Bien Hecho',
+            'text' => 'La categoría se ha creado correctamente',]);
+
+        //$category = new Category();
+        //$category->name = $request->name;
+        //$category->save();
+
+        return redirect()->route('admin.categories.index');
     }
 
     /**
@@ -45,7 +61,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
@@ -53,7 +69,18 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required|string|min:3|max:255',
+        ]);
+
+        $category->update($data);
+
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Bien Hecho',
+            'text' => 'La categoría se ha actualizado correctamente',]);
+
+        return redirect()->route('admin.categories.edit', $category);
     }
 
     /**
@@ -61,6 +88,13 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+
+        session()->flash('swal', [
+            'icon' => 'success',
+            'title' => 'Bien Hecho',
+            'text' => 'La categoría se ha eliminado correctamente',]);
+
+        return redirect()->route('admin.categories.index');
     }
 }
