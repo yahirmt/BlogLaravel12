@@ -4,20 +4,14 @@
             [
                 'name' => 'Dashboard',
                 'icon' => 'home',
-                'route' => route('dashboard'),
-                'current' => "'request()->routeIs('admin.dashboard')'"
+                'route' => route('admin.dashboard'),
+                'current' => request()->routeIs('admin.dashboard')
             ],
             [
                 'name' => 'Categorias',
-                'icon' => 'home',
-                'route' => route('dashboard'),
-                'current' => "'request()->routeIs('admin.categories.*')'"
-            ],
-            [
-                'name' => 'Posts',
-                'icon' => 'home',
-                'route' => route('dashboard'),
-                'current' => "'request()->routeIs('admin.posts.*')'"
+                'icon' => 'tag',
+                'route' => route('admin.categories.index'),
+                'current' => request()->routeIs('admin.categories.*')
             ],
         ]
     ];
